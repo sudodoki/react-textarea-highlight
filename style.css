@@ -1,0 +1,28 @@
+.rth-container, .rth-container * {
+  box-sizing: border-box;
+  border: none;
+}
+/* TODO: insert default styles of your component here for easy access */
+.rth-container {
+  position: relative;
+  height: 100px;
+}
+.rth-container textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+}
+.rth-overlay {
+  z-index: 1;
+  color: rgba(255, 0, 0, 0.7);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+.rth-overlay-text {
+  display: inline-block;
+  white-space: pre-wrap;
+}
