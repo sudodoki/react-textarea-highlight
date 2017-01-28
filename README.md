@@ -24,9 +24,9 @@ See [examples](http://sudodoki.github.io/react-textarea-highlight)
 
 ## Credits
 
-[keustma/react-highlighted-textarea](https://github.com/keustma/react-highlighted-textarea)
-[lonekorean/highlight-within-textarea](https://github.com/lonekorean/highlight-within-textarea)
-[phil3903/react-textarea-highlighter](https://github.com/phil3903/react-textarea-highlighter)
-[Contenteditable presentation](https://wsd.events/2015/11/28/pres/contenteditable.pdf) by [@kigorw](https://github.com/kigorw)
++ [keustma/react-highlighted-textarea](https://github.com/keustma/react-highlighted-textarea)
++ [lonekorean/highlight-within-textarea](https://github.com/lonekorean/highlight-within-textarea)
++ [phil3903/react-textarea-highlighter](https://github.com/phil3903/react-textarea-highlighter)
++ [Contenteditable presentation](https://wsd.events/2015/11/28/pres/contenteditable.pdf) by [@kigorw](https://github.com/kigorw)
 
 This repo is based on [react-component-boilerplate](https://github.com/survivejs/react-component-boilerplate).
