@@ -57,8 +57,8 @@ class TextAreaHighlight extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
-      this.setState({ value: nextProps.value});
-      this.updateScrollPosition()
+      this.setState({ value: nextProps.value });
+      this.updateScrollPosition();
     }
   }
 
@@ -126,7 +126,7 @@ class TextAreaHighlight extends React.Component {
           contentEditable
           ref={overlay => this.overlay = overlay}
           onFocus={() => {
-            this.textarea.focus()
+            this.textarea.focus();
             this.updateScrollPosition();
           }}
         >
@@ -142,6 +142,7 @@ class TextAreaHighlight extends React.Component {
 }
 
 TextAreaHighlight.propTypes = {
+  value: React.PropTypes.string,
   onInput: React.PropTypes.func,
   onKeyDown: React.PropTypes.func,
   breakOn: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.instanceOf(RegExp)]),
