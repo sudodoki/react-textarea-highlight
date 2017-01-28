@@ -13,9 +13,11 @@ See [examples](http://sudodoki.github.io/react-textarea-highlight)
 ## TODO
 
 + [x] Controlled value
-+ [ ] Describe API
-+ [ ] Proxy dblclick and scroll from div to textarea
 + [ ] Browser support list
++ [ ] Describe API
++ [ ] Add example umbrella page for direct link
++ [ ] publish
++ [ ] Proxy dblclick and scroll from div to textarea
 + [ ] 🤔 less awkward styling and description of how to do it
 + [ ] 🤔 Consider not wrapping everything, but only highlighted things
 + [ ] 🤔 Consider passing position if it's necessary using https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter
