@@ -10,6 +10,7 @@ module.exports = {
     "react"
   ],
   "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_.+" }],
     "comma-dangle": ["error", "never"],
     "prefer-arrow-callback": 0,
     "func-names": 0,
