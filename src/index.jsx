@@ -8,7 +8,21 @@ const pick = (object, keys) =>
     return memo;
   }, {});
 
+const omit = (object, excludedKeys) =>
+  pick(object, Object.keys(object).filter(key => !excludedKeys.includes(key)));
+
+const ColoredMarker = ({ highlight, color, children }) =>
+  <mark style={{ backgroundColor: highlight, color }}>{children}</mark>;
+ColoredMarker.propTypes = {
+  highlight: React.PropTypes.string,
+  color: React.PropTypes.string,
+  children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string])
+};
+
 const CSS_PROPERTIES = [
+  'line-height',
+  'color',
+  'word-spacing',
   'padding',
   'margin',
   'font-style',
@@ -28,7 +42,7 @@ class TextAreaHighlight extends React.Component {
     super();
     this.state = { value: '' };
     this.onInput = this.onInput.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.updateScrollPosition = this.updateScrollPosition.bind(this);
     this.wrap = this.wrap.bind(this);
   }
@@ -41,11 +55,11 @@ class TextAreaHighlight extends React.Component {
     return onInput(e);
   }
 
-  onKeyUp(e) {
-    const { onKeyUp } = this.props;
+  onKeyDown(e) {
+    const { onKeyDown } = this.props;
 
     this.updateScrollPosition();
-    return onKeyUp(e);
+    return onKeyDown(e);
   }
   updateScrollPosition() {
     if (this.overlay && this.textarea) {
@@ -56,11 +70,28 @@ class TextAreaHighlight extends React.Component {
 
   // yeah, had misaligned overlay content when new line was the only thing
   wrap(text) {
-    if (text.endsWith("\n")) {
-      return text + "\n";
-    } else {
-      return text;
-    }
+    const {
+      breakOn,
+      wrapIn: Wrapper,
+      withColor,
+      withHighlight
+    } = this.props;
+    const textToWrap = text.endsWith('\n')
+      ? `${text}\n`
+      : text;
+    return textToWrap
+      .split(breakOn)
+      .map((string, index) => {
+        const highlight = withHighlight(string);
+
+        return (
+          <Wrapper
+            key={index}
+            highlight={highlight}
+            color={withColor(string, highlight)}
+          >{string}</Wrapper>
+        );
+      });
   }
 
   render() {
@@ -76,9 +107,9 @@ class TextAreaHighlight extends React.Component {
             this.updateScrollPosition();
             this.textarea = textarea;
           }}
-          {...this.props}
+          {...omit(this.props, ['breakOn', 'withColor', 'wrapIn', 'withHighlight'])}
           onInput={this.onInput}
-          onKeyUp={this.onKeyUp}
+          onKeyDown={this.onKeyDown}
         />
         <div
           className="rth-overlay"
@@ -99,12 +130,20 @@ class TextAreaHighlight extends React.Component {
 
 TextAreaHighlight.propTypes = {
   onInput: React.PropTypes.func,
-  onKeyUp: React.PropTypes.func,
+  onKeyDown: React.PropTypes.func,
+  breakOn: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.instanceOf(RegExp)]),
+  wrapIn: React.PropTypes.func,
+  withHighlight: React.PropTypes.func,
+  withColor: React.PropTypes.func
 };
 
 TextAreaHighlight.defaultProps = {
   onInput: () => {},
-  onKeyUp: () => {},
+  onKeyDown: () => {},
+  breakOn: /\b/,
+  wrapIn: ColoredMarker,
+  withHighlight: _word => 'transparent',
+  withColor: (_word, _bgColor) => 'transparent'
 };
 
 module.exports = TextAreaHighlight;
