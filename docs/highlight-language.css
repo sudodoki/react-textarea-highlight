@@ -1,0 +1,25 @@
+.highlighter textarea {
+  line-height: 27px;
+  word-spacing: 2px;
+}
+.highlighter .rth-container {
+  width: 500px;
+}
+.column,
+.keyword {
+  position: relative;
+}
+.column:after,
+.keyword:after {
+  content: '';
+  width: calc(100% + 5px);
+  height: calc(100% + 5px);
+  background: rgba(128, 0, 0, 0.5);
+  border-radius: 5px;
+  top: -2.5px;
+  position: absolute;
+  left: -2.5px;
+}
+.column:after {
+  background: rgba(128, 128, 0, 0.5);
+}
