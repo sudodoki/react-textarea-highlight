@@ -38,9 +38,9 @@ const CSS_PROPERTIES = [
 
 class TextAreaHighlight extends React.Component {
 
-  constructor() {
-    super();
-    this.state = { value: '' };
+  constructor(props) {
+    super(props);
+    this.state = { value: props.value || '' };
     this.onInput = this.onInput.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.updateScrollPosition = this.updateScrollPosition.bind(this);
@@ -55,18 +55,27 @@ class TextAreaHighlight extends React.Component {
     return onInput(e);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({ value: nextProps.value});
+      this.updateScrollPosition()
+    }
+  }
+
   onKeyDown(e) {
     const { onKeyDown } = this.props;
 
     this.updateScrollPosition();
     return onKeyDown(e);
   }
+
   updateScrollPosition() {
     if (this.overlay && this.textarea) {
       this.overlay.scrollTop = this.textarea.scrollTop;
     }
     setTimeout(() => this.overlay.scrollTop = this.textarea.scrollTop, 4, this);
   }
+
 
   // yeah, had misaligned overlay content when new line was the only thing
   wrap(text) {
@@ -107,7 +116,8 @@ class TextAreaHighlight extends React.Component {
             this.updateScrollPosition();
             this.textarea = textarea;
           }}
-          {...omit(this.props, ['breakOn', 'withColor', 'wrapIn', 'withHighlight'])}
+          {...omit(this.props, ['breakOn', 'withColor', 'wrapIn', 'withHighlight', 'value'])}
+          value={this.state.value}
           onInput={this.onInput}
           onKeyDown={this.onKeyDown}
         />
@@ -115,7 +125,10 @@ class TextAreaHighlight extends React.Component {
           className="rth-overlay"
           contentEditable
           ref={overlay => this.overlay = overlay}
-          onFocus={() => this.textarea.focus()}
+          onFocus={() => {
+            this.textarea.focus()
+            this.updateScrollPosition();
+          }}
         >
           <span
             className="rth-overlay-text text-default"

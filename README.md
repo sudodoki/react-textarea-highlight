@@ -1,23 +1,18 @@
-# React Textarea highlight
+# React Textarea highlight [![build status](https://secure.travis-ci.org/sudodoki/react-textarea-highlight.svg)](http://travis-ci.org/sudodoki/react-textarea-highlight) [![bitHound Score](https://www.bithound.io/github/sudodoki/react-textarea-highlight/badges/score.svg)](https://www.bithound.io/github/sudodoki/react-textarea-highlight) [![Dependency Status](https://david-dm.org/sudodoki/react-textarea-highlight.svg)](https://david-dm.org/sudodoki/react-textarea-highlight)
 
 ## Installation
 
 ```
-npm i react-textarea-highlight
+npm i sudodoki/react-textarea-highlight
 ```
 
 ## Usage
 
-```
-import TextArea from 'react-textarea-highlight';
-
-
-```
-
-[![build status](https://secure.travis-ci.org/sudodoki/react-textarea-highlight.svg)](http://travis-ci.org/sudodoki/react-textarea-highlight) [![bitHound Score](https://www.bithound.io/github/sudodoki/react-textarea-highlight/badges/score.svg)](https://www.bithound.io/github/sudodoki/react-textarea-highlight) [![Dependency Status](https://david-dm.org/sudodoki/react-textarea-highlight.svg)](https://david-dm.org/sudodoki/react-textarea-highlight)
+See [examples](http://sudodoki.github.io/react-textarea-highlight)
 
 ## TODO
-+ [ ] Controlled value
+
++ [x] Controlled value
 + [ ] Describe API
 + [ ] Proxy dblclick and scroll from div to textarea
 + [ ] Browser support list
@@ -26,7 +21,10 @@ import TextArea from 'react-textarea-highlight';
 + [ ] 🤔 Consider passing position if it's necessary using https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter
 
 ## Credits
-https://github.com/keustma/react-highlighted-textarea
-https://github.com/lonekorean/highlight-within-textarea
-https://github.com/phil3903/react-textarea-highlighter/blob/master/src/textarea_highlighter.js
+
+[keustma/react-highlighted-textarea](https://github.com/keustma/react-highlighted-textarea)
+[lonekorean/highlight-within-textarea](https://github.com/lonekorean/highlight-within-textarea)
+[phil3903/react-textarea-highlighter](https://github.com/phil3903/react-textarea-highlighter)
+[Contenteditable presentation](https://wsd.events/2015/11/28/pres/contenteditable.pdf) by [@kigorw](https://github.com/kigorw)
+
 This repo is based on [react-component-boilerplate](https://github.com/survivejs/react-component-boilerplate).

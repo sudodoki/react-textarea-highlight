@@ -58,6 +58,11 @@ const pages = [
     path: '/highlight-language',
     title: 'Demo: Language Highlight',
     component: require('./highlight-language')
+  },
+  {
+    path: '/controlled-value',
+    title: 'Demo: Controlled Value',
+    component: require('./controlled-value')
   }
 ];
 
