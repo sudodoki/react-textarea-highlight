@@ -1,4 +1,4 @@
-# Censor sample
+# Censor
 
 ```js
 const isFooBar = (word) => ['foo', 'bar'].includes(word);

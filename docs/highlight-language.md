@@ -1,4 +1,4 @@
-# Hey from MD
+# Highlighting Language
 
 There's possibly more than 1 way to do things.
 ```
