@@ -2,14 +2,17 @@
 
 There's possibly more than 1 way to do things.
 ```
-const Wrapper = ({ children }) => {
-  const className = classnames({
+const Wrapper = ({ children, color }) => {
+  if (!children) { return null; }
+  const className = classnames('highlight-wrapper', {
     keyword: isKeyword(children),
     column: isColumn(children)
   });
-  return <span className={className}>{children}</span>;
+
+  return <span style={{color}} className={className}>{children}</span>;
 };
 Wrapper.propTypes = {
+  color: React.PropTypes.string,
   children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string])
 };
 

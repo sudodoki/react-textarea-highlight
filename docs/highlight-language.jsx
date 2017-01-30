@@ -11,16 +11,17 @@ const is = values => word => (word ? values.includes(word.toLowerCase()) : false
 const isKeyword = is(KEYWORDS);
 const isColumn = is(COLUMNS);
 
-const Wrapper = ({ children }) => {
+const Wrapper = ({ children, color }) => {
   if (!children) { return null; }
   const className = classnames('highlight-wrapper', {
     keyword: isKeyword(children),
     column: isColumn(children)
   });
 
-  return <span className={className}>{children}</span>;
+  return <span style={{color}} className={className}>{children}</span>;
 };
 Wrapper.propTypes = {
+  color: React.PropTypes.string,
   children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string])
 };
 
@@ -28,7 +29,8 @@ const HighlightLanguagePage = props =>
   (
     <div className="highlighter">
       <Page {...props} />
-      <TextArea wrapIn={Wrapper} withColor={() => 'red'} />
+      {/* color is passed but not used */}
+      <TextArea wrapIn={Wrapper} />
     </div>
   );
 

@@ -21,6 +21,11 @@ See [examples](http://sudodoki.github.io/react-textarea-highlight)
 + [ ] 🤔 less awkward styling and description of how to do it
 + [ ] 🤔 Consider not wrapping everything, but only highlighted things
 + [ ] 🤔 Consider passing position if it's necessary using https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter
++ [ ] `.split(/\b/)` and unicode
+
+## Known issues
+
++ Multiple spaces
 
 ## Credits
 

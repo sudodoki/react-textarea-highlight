@@ -30,6 +30,7 @@
 }
 
 .rth-overlay-text {
+  color: transparent;
   display: inline-block;
   white-space: pre-wrap;
   word-break: break-word;

@@ -19,6 +19,7 @@ _::-webkit-:not(:root:root), .highlight-wrapper {
 .highlighter .rth-container {
   width: 500px;
 }
+
 .column,
 .keyword {
   position: relative;
