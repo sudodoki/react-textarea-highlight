@@ -18,7 +18,7 @@ const Wrapper = ({ children, color }) => {
     column: isColumn(children)
   });
 
-  return <span style={{color}} className={className}>{children}</span>;
+  return <span style={{ color }} className={className}>{children}</span>;
 };
 Wrapper.propTypes = {
   color: React.PropTypes.string,
