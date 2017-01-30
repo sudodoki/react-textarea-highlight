@@ -111,7 +111,9 @@ class TextAreaHighlight extends React.Component {
   render() {
     return (
       <div className="rth-container">
+        {/* data-gramm is to prevent Grammarly plugin to bring havoc to the things */}
         <textarea
+          data-gramm
           className="text-default"
           ref={(textarea) => {
             if (!this.styles) {
