@@ -13,7 +13,7 @@ const isColumn = is(COLUMNS);
 
 const Wrapper = ({ children }) => {
   if (!children) { return null; }
-  const className = classnames({
+  const className = classnames('highlight-wrapper', {
     keyword: isKeyword(children),
     column: isColumn(children)
   });

@@ -2,15 +2,16 @@
     z-index: 1000;
 }
 
+/* TODO: insert main styles of your demo here */
+.container .rth-container {
+  border: 1px solid gray;
+}
+
 .container {
   overflow: scroll;
   margin: 20px auto;
 }
 
-.container .rth-container {
-  border: 1px solid gray;
-}
-/* TODO: insert main styles of your demo here */
 .rth-container {
   max-width: 500px;
   margin: 0 auto;

@@ -1,7 +1,21 @@
 .highlighter textarea {
   line-height: 27px;
+}
+
+/* Given tokens require more space around them, we need more space between words in text area */
+.highlighter textarea {
+  word-spacing: 4px;
+}
+
+.highlight-wrapper {
+  word-spacing: 4px;
+}
+/* unfortunately safari has some issues with this */
+/* Safari 9.0+ (http://stackoverflow.com/a/25975282/1976857) */
+_::-webkit-:not(:root:root), .highlight-wrapper {
   word-spacing: 2px;
 }
+
 .highlighter .rth-container {
   width: 500px;
 }
@@ -20,6 +34,7 @@
   position: absolute;
   left: -2.5px;
 }
+
 .column:after {
   background: rgba(128, 128, 0, 0.5);
 }

@@ -56,6 +56,13 @@ class TextAreaHighlight extends React.Component {
     return onInput(e);
   }
 
+  componentDidMount() {
+    if (this.props.value) {
+      // eslint-disable-next-line
+      this.setState({ value: this.props.value });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
@@ -83,6 +90,7 @@ class TextAreaHighlight extends React.Component {
   }
 
   wrap(text) {
+    if (!this.textarea) { return ''; }
     const {
       breakOn,
       wrapIn: Wrapper,
@@ -97,7 +105,6 @@ class TextAreaHighlight extends React.Component {
       .split(breakOn)
       .map((string, index) => {
         const highlight = withHighlight(string);
-
         return (
           <Wrapper
             key={index}
@@ -105,7 +112,7 @@ class TextAreaHighlight extends React.Component {
             color={withColor(string, highlight)}
           >{string}</Wrapper>
         );
-      });
+      }, this);
   }
 
   render() {
