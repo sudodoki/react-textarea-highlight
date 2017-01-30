@@ -82,8 +82,6 @@ class TextAreaHighlight extends React.Component {
     setTimeout(() => this.overlay.scrollTop = this.textarea.scrollTop, 4, this);
   }
 
-
-
   wrap(text) {
     const {
       breakOn,
