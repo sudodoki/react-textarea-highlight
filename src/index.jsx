@@ -83,7 +83,7 @@ class TextAreaHighlight extends React.Component {
   }
 
 
-  // yeah, had misaligned overlay content when new line was the only thing
+
   wrap(text) {
     const {
       breakOn,
@@ -91,6 +91,7 @@ class TextAreaHighlight extends React.Component {
       withColor,
       withHighlight
     } = this.props;
+    // yeah, had misaligned overlay content when new line was the only thing
     const textToWrap = text.endsWith('\n')
       ? `${text}\n`
       : text;
@@ -130,12 +131,7 @@ class TextAreaHighlight extends React.Component {
         />
         <div
           className="rth-overlay"
-          contentEditable
           ref={overlay => this.overlay = overlay}
-          onFocus={() => {
-            this.textarea.focus();
-            this.updateScrollPosition();
-          }}
         >
           <span
             className="rth-overlay-text text-default"
