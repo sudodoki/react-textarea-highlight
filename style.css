@@ -15,6 +15,7 @@
   background-color: transparent;
 }
 .rth-overlay {
+  pointer-events: none;
   height: 100%;
   width: 100%;
   position: absolute;

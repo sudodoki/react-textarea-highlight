@@ -43,6 +43,7 @@ class TextAreaHighlight extends React.Component {
     this.state = { value: props.value || '' };
     this.onInput = this.onInput.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onScroll = this.onScroll.bind(this);
     this.updateScrollPosition = this.updateScrollPosition.bind(this);
     this.wrap = this.wrap.bind(this);
   }
@@ -64,9 +65,14 @@ class TextAreaHighlight extends React.Component {
 
   onKeyDown(e) {
     const { onKeyDown } = this.props;
-
     this.updateScrollPosition();
     return onKeyDown(e);
+  }
+
+  onScroll(e) {
+    const { onScroll } = this.props;
+    this.updateScrollPosition();
+    return onScroll(e);
   }
 
   updateScrollPosition() {
@@ -120,6 +126,7 @@ class TextAreaHighlight extends React.Component {
           value={this.state.value}
           onInput={this.onInput}
           onKeyDown={this.onKeyDown}
+          onScroll={this.onScroll}
         />
         <div
           className="rth-overlay"
@@ -145,6 +152,7 @@ TextAreaHighlight.propTypes = {
   value: React.PropTypes.string,
   onInput: React.PropTypes.func,
   onKeyDown: React.PropTypes.func,
+  onScroll: React.PropTypes.func,
   breakOn: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.instanceOf(RegExp)]),
   wrapIn: React.PropTypes.func,
   withHighlight: React.PropTypes.func,
@@ -154,6 +162,7 @@ TextAreaHighlight.propTypes = {
 TextAreaHighlight.defaultProps = {
   onInput: () => {},
   onKeyDown: () => {},
+  onScroll: () => {},
   breakOn: /\b/,
   wrapIn: ColoredMarker,
   withHighlight: _word => 'transparent',
