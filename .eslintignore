@@ -1,0 +1,8 @@
+lib/
+build/
+dist/
+gh-pages/
+node_modules/
+coverage/
+npm-debug.log
+.eslintcache
