@@ -23,7 +23,7 @@ class HighlightLanguagePage extends React.Component {
         <TextArea
           value={this.state.value}
           onChange={this.updateValue}
-          withColor={word => (word.match(/cowbell/i) ? 'red' : 'transparent')}
+          highlight={() => /cowbell/ig}
         />
       </div>
     );

@@ -52,6 +52,7 @@
     "html-webpack-template": "^6.0.0",
     "jest": "^18.1.0",
     "json-loader": "^0.5.4",
+    "lodash": "^4.17.4",
     "purecss": "^0.6.1",
     "raw-loader": "^0.5.1",
     "react": "^15.4.1",
@@ -101,6 +102,6 @@
     "doc": "docs"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash.includes": "^4.3.0"
   }
 }

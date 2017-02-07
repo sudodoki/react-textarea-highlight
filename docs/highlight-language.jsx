@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import Page from './highlight-language.md';
 import TextArea from '../src/index';
 
@@ -8,29 +7,40 @@ import './highlight-language.css';
 const KEYWORDS = ['select', 'from', 'where'];
 const COLUMNS = ['column', 'col'];
 const is = values => word => (word ? values.includes(word.toLowerCase()) : false);
+const isSignificant = is(KEYWORDS.concat(COLUMNS));
 const isKeyword = is(KEYWORDS);
 const isColumn = is(COLUMNS);
 
-const Wrapper = ({ children, color }) => {
-  if (!children) { return null; }
-  const className = classnames('highlight-wrapper', {
-    keyword: isKeyword(children),
-    column: isColumn(children)
-  });
+const stringToIndexedWords = (string) => {
+  const result = [];
+  const hasWord = /([a-zA-Z']+)/g;
+  let execution = hasWord.exec(string);
 
-  return <span style={{ color }} className={className}>{children}</span>;
+  while (execution != null) {
+    const match = execution[1];
+    result.push([execution.index, execution.index + match.length, match]);
+    execution = hasWord.exec(string);
+  }
+  return result;
 };
-Wrapper.propTypes = {
-  color: React.PropTypes.string,
-  children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string])
-};
+
+function doHighlight(input) {
+  const wordsVec = stringToIndexedWords(input);
+  return wordsVec
+    .filter(([_1, _2, word]) => isSignificant(word))
+    .map(([start, end, word]) => {
+      if (isKeyword(word)) { return [start, end, 'keyword']; }
+      if (isColumn(word)) { return [start, end, 'column']; }
+      return [start, end];
+    });
+}
 
 const HighlightLanguagePage = props =>
   (
     <div className="highlighter">
       <Page {...props} />
       {/* color is passed but not used */}
-      <TextArea wrapIn={Wrapper} />
+      <TextArea className="language-highlight" highlight={doHighlight} />
     </div>
   );
 

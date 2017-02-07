@@ -1,41 +1,27 @@
-.highlighter textarea {
-  line-height: 27px;
-}
-
-/* Given tokens require more space around them, we need more space between words in text area */
-.highlighter textarea {
-  word-spacing: 4px;
-}
-
-.highlight-wrapper {
-  word-spacing: 4px;
-}
-/* unfortunately safari has some issues with this */
-/* Safari 9.0+ (http://stackoverflow.com/a/25975282/1976857) */
-_::-webkit-:not(:root:root), .highlight-wrapper {
-  word-spacing: 2px;
-}
-
-.highlighter .rth-container {
-  width: 500px;
-}
-
-.column,
 .keyword {
+  background-color: blue;
+}
+.column {
+  background-color: yellow;
+}
+.language-highlight .rth-content mark {
   position: relative;
 }
-.column:after,
-.keyword:after {
+.language-highlight .rth-content {
+  padding: 4px;
+  word-spacing: 4px;
+  line-height: 24px;
+}
+.language-highlight .rth-content mark:after {
   content: '';
   width: calc(100% + 5px);
   height: calc(100% + 5px);
-  background: rgba(128, 0, 0, 0.5);
+  background: inherit;
   border-radius: 5px;
   top: -2.5px;
   position: absolute;
   left: -2.5px;
 }
-
-.column:after {
-  background: rgba(128, 128, 0, 0.5);
+.language-highlight .rth-content mark {
+  opacity: 0.5;
 }

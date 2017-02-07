@@ -1,175 +1,155 @@
-/* eslint no-return-assign:0 no-param-reassign:0 */
-// this should be the entry point to your library
-const React = require('react');
-const _ = require('lodash');
+/* eslint no-return-assign:0, react/no-danger:0 */
+import React, { PropTypes, Component } from 'react';
+import includes from 'lodash.includes';
+
 const pick = (object, keys) =>
   keys.reduce((memo, key) => {
+    // eslint-disable-next-line no-param-reassign
     memo[key] = object[key];
     return memo;
   }, {});
 
 const omit = (object, excludedKeys) =>
-  pick(object, Object.keys(object).filter(key => !_.includes(excludedKeys, key)));
+  pick(object, Object.keys(object).filter(key => !includes(excludedKeys, key)));
 
-const ColoredMarker = ({ highlight, color, children }) =>
-  <mark style={{ backgroundColor: highlight, color }}>{children}</mark>;
-ColoredMarker.propTypes = {
-  highlight: React.PropTypes.string,
-  color: React.PropTypes.string,
-  children: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string])
-};
-
-const CSS_PROPERTIES = [
-  'line-height',
-  'color',
-  'word-spacing',
-  'padding',
-  'margin',
-  'font-style',
-  'font-variant',
-  'font-weight',
-  'font-stretch',
-  'font-size',
-  'line-height',
-  'font-family',
-  'font-feature-settings',
-  'font-kerning'
-];
-
-class TextAreaHighlight extends React.Component {
+class TextAreaHighlight extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: props.value || '' };
-    this.onInput = this.onInput.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onScroll = this.onScroll.bind(this);
-    this.updateScrollPosition = this.updateScrollPosition.bind(this);
-    this.wrap = this.wrap.bind(this);
-  }
-
-  onInput(e) {
-    const rawValue = e.target.value;
-    const { onInput } = this.props;
-
-    this.setState({ value: rawValue }, this.updateScrollPosition);
-    return onInput(e);
-  }
-
-  componentDidMount() {
-    if (this.props.value) {
-      // eslint-disable-next-line
-      this.setState({ value: this.props.value });
-    }
+    this.state = {
+      value: props.value
+    };
+    this._handleInputChange = this._handleInputChange.bind(this);
+    this._handleScroll = this._handleScroll.bind(this);
+    this._handleRegexHighlight = this._handleRegexHighlight.bind(this);
+    this._handleArrayHighlight = this._handleArrayHighlight.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
-      this.updateScrollPosition();
+      this.backdrop.scrollTop = this.textarea.scrollTop;
     }
   }
-
-  onKeyDown(e) {
-    const { onKeyDown } = this.props;
-    this.updateScrollPosition();
-    return onKeyDown(e);
+  _handleInputChange(event) {
+    const { onChange } = this.props;
+    this.setState({ value: event.target.value });
+    return onChange(event);
   }
 
-  onScroll(e) {
+  _handleScroll(event) {
     const { onScroll } = this.props;
-    this.updateScrollPosition();
-    return onScroll(e);
+    const scrollTop = event.target.scrollTop;
+    this.backdrop.scrollTop = scrollTop;
+    return onScroll(event);
   }
 
-  updateScrollPosition() {
-    if (this.overlay && this.textarea) {
-      this.overlay.scrollTop = this.textarea.scrollTop;
+  _handleRegexHighlight(input, payload) {
+    const OPEN_MARK = `<${this.props.wrapIn}>`;
+    const CLOSE_MARK = `</${this.props.wrapIn}>`;
+    return input.replace(payload, `${OPEN_MARK}$&${CLOSE_MARK}`);
+  }
+
+  _handleArrayHighlight(input, payload) {
+    let offset = 0;
+    const wrapIn = this.props.wrapIn;
+    const OPEN_MARK = `<${wrapIn}>`;
+    const CLOSE_MARK = `</${wrapIn}>`;
+
+    payload.forEach(function (element) {
+      // insert open tag
+      const open = element[0] + offset;
+
+      if (element[2]) {
+        const OPEN_MARK_WITH_CLASS = `<${wrapIn} class=${element[2]}>`;
+        // eslint-disable-next-line no-param-reassign
+        input = input.slice(0, open) + OPEN_MARK_WITH_CLASS + input.slice(open);
+        offset += OPEN_MARK_WITH_CLASS.length;
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        input = input.slice(0, open) + OPEN_MARK + input.slice(open);
+        offset += OPEN_MARK.length;
+      }
+
+      // insert close tag
+      const close = element[1] + offset;
+
+      // eslint-disable-next-line no-param-reassign
+      input = input.slice(0, close) + CLOSE_MARK + input.slice(close);
+      offset += CLOSE_MARK.length;
+    }, this);
+    return input;
+  }
+
+  getHighlights() {
+    const CLOSE_MARK = `</${this.props.wrapIn}>`;
+
+    // escape HTML
+    let highlightedMarkup = this.state.value.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+    const payload = this.props.highlight(highlightedMarkup);
+
+    if (payload) {
+      switch (payload.constructor.name) {
+        case 'Array':
+          highlightedMarkup = this._handleArrayHighlight(highlightedMarkup, payload);
+          break;
+        case 'RegExp':
+          highlightedMarkup = this._handleRegexHighlight(highlightedMarkup, payload);
+          break;
+        default:
+          throw new TypeError('props.highlight did not return RegExp or Array');
+      }
     }
-    setTimeout(() => this.overlay.scrollTop = this.textarea.scrollTop, 4, this);
-  }
 
-  wrap(text) {
-    if (!this.textarea) { return ''; }
-    const {
-      breakOn,
-      wrapIn: Wrapper,
-      withColor,
-      withHighlight
-    } = this.props;
-    // yeah, had misaligned overlay content when new line was the only thing
-    const textToWrap = _.endsWith(text, '\n')
-      ? `${text}\n`
-      : text;
-    return textToWrap
-      .split(breakOn)
-      .map((string, index) => {
-        const highlight = withHighlight(string);
-        return (
-          <Wrapper
-            key={index}
-            highlight={highlight}
-            color={withColor(string, highlight)}
-          >{string}</Wrapper>
-        );
-      }, this);
+    // this keeps scrolling aligned when input ends with a newline
+    highlightedMarkup = highlightedMarkup.replace(new RegExp(`\\n(${CLOSE_MARK})?$`), '\n\n$1');
+
+    return highlightedMarkup;
   }
 
   render() {
+    const defaultClass = 'rth-container';
+    const className = this.props.className ? [this.props.className, defaultClass].join(' ') : defaultClass;
     return (
-      <div className="rth-container">
-        {/* data-gramm is to prevent Grammarly plugin to bring havoc to the things */}
+      <div className={className}>
+        <div className="rth-backdrop" ref={backdrop => this.backdrop = backdrop}>
+          <div
+            className="rth-highlights rth-content"
+            dangerouslySetInnerHTML={{ __html: this.getHighlights() }}
+          />
+        </div>
         <textarea
           data-gramm
-          className="text-default"
-          ref={(textarea) => {
-            if (!this.styles) {
-              const styles = pick(document.defaultView.getComputedStyle(textarea), CSS_PROPERTIES);
-              this.styles = styles;
-            }
-            this.updateScrollPosition();
-            this.textarea = textarea;
-          }}
-          {...omit(this.props, ['breakOn', 'withColor', 'wrapIn', 'withHighlight', 'value'])}
+          ref={textarea => this.textarea = textarea}
+          {...omit(this.props, ['highlight', 'wrapIn', 'value'])}
+          className="rth-input rth-content"
+          onChange={this._handleInputChange}
+          onScroll={this._handleScroll}
           value={this.state.value}
-          onInput={this.onInput}
-          onKeyDown={this.onKeyDown}
-          onScroll={this.onScroll}
         />
-        <div
-          className="rth-overlay"
-          ref={overlay => this.overlay = overlay}
-        >
-          <span
-            className="rth-overlay-text text-default"
-            style={this.styles}
-          >{this.wrap(this.state.value)}</span>
-        </div>
-
       </div>
     );
   }
 }
 
 TextAreaHighlight.propTypes = {
-  value: React.PropTypes.string,
-  onInput: React.PropTypes.func,
-  onKeyDown: React.PropTypes.func,
-  onScroll: React.PropTypes.func,
-  breakOn: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.instanceOf(RegExp)]),
-  wrapIn: React.PropTypes.func,
-  withHighlight: React.PropTypes.func,
-  withColor: React.PropTypes.func
+  value: PropTypes.string,
+  className: PropTypes.string,
+  highlight: PropTypes.func,
+  wrapIn: PropTypes.string,
+  onChange: PropTypes.func,
+  onScroll: PropTypes.func
 };
 
 TextAreaHighlight.defaultProps = {
-  onInput: () => {},
-  onKeyDown: () => {},
-  onScroll: () => {},
-  breakOn: /\b/,
-  wrapIn: ColoredMarker,
-  withHighlight: _word => 'transparent',
-  withColor: (_word, _bgColor) => 'transparent'
+  value: '',
+  highlight: () => [],
+  wrapIn: 'mark',
+  onChange: () => {},
+  onScroll: () => {}
 };
 
 module.exports = TextAreaHighlight;

@@ -29,6 +29,9 @@ See [examples](http://sudodoki.github.io/react-textarea-highlight)
 
 ## Credits
 
+Initially it was something on its own. But now it's actually fork of [keustma/react-highlighted-textarea](https://github.com/keustma/react-highlighted-textarea)
+
+Some other interesting places to look at this problems solution:
 + [keustma/react-highlighted-textarea](https://github.com/keustma/react-highlighted-textarea)
 + [lonekorean/highlight-within-textarea](https://github.com/lonekorean/highlight-within-textarea)
 + [phil3903/react-textarea-highlighter](https://github.com/phil3903/react-textarea-highlighter)

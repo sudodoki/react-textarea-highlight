@@ -1,9 +1,10 @@
 # Censor
 
 ```js
-const isFooBar = (word) => ['foo', 'bar'].includes(word);
+const isFooBar = () => /(foo)|(bar)/ig;
 <TextArea
-  withHighlight={(word) => isFooBar(word) ? 'black' : 'transparent'}
+  className="censor"
+  highlight={isFooBar}
 />
 ```
 

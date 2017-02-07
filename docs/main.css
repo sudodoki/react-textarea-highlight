@@ -3,6 +3,9 @@
 }
 
 /* TODO: insert main styles of your demo here */
+.censor mark {
+  background-color: black;
+}
 .container .rth-container {
   border: 1px solid gray;
 }
