@@ -25,7 +25,7 @@ See [examples](http://sudodoki.github.io/react-textarea-highlight)
 
 ## Known issues
 
-+ Multiple spaces
++ TBA
 
 ## Credits
 

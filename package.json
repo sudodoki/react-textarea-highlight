@@ -1,7 +1,7 @@
 {
   "name": "react-textarea-highlight",
   "author": "sudodoki <smd.deluzion@gmail.com> (sudodoki.name)",
-  "description": "Boilerplate for React.js components",
+  "description": "React Textarea Highlight",
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server",
@@ -14,13 +14,12 @@
     "gh-pages:stats": "webpack --profile --json > stats.json",
     "dist": "webpack",
     "dist:min": "webpack",
-    "dist:modules": "rimraf ./dist-modules && babel ./src --out-dir ./dist-modules",
+    "dist:modules": "rimraf ./lib && babel ./src --out-dir ./lib",
     "preversion": "npm run test && npm run dist && npm run dist:min && git commit --allow-empty -am \"Update dist\"",
     "prepublish": "npm run dist:modules",
-    "postpublish": "npm run gh-pages && npm run gh-pages:deploy",
-    "postinstall": "node lib/post_install.js"
+    "postpublish": "npm run gh-pages && npm run gh-pages:deploy"
   },
-  "main": "dist/react-textarea-highlight",
+  "main": "lib/ReactTextareaHighlight",
   "module": "src",
   "jsnext:main": "src",
   "devDependencies": {
