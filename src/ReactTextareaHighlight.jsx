@@ -1,7 +1,7 @@
 /* eslint no-return-assign:0 no-param-reassign:0 */
 // this should be the entry point to your library
 const React = require('react');
-
+const _ = require('lodash');
 const pick = (object, keys) =>
   keys.reduce((memo, key) => {
     memo[key] = object[key];
@@ -9,7 +9,7 @@ const pick = (object, keys) =>
   }, {});
 
 const omit = (object, excludedKeys) =>
-  pick(object, Object.keys(object).filter(key => !excludedKeys.includes(key)));
+  pick(object, Object.keys(object).filter(key => !_.includes(excludedKeys, key)));
 
 const ColoredMarker = ({ highlight, color, children }) =>
   <mark style={{ backgroundColor: highlight, color }}>{children}</mark>;
@@ -98,7 +98,7 @@ class TextAreaHighlight extends React.Component {
       withHighlight
     } = this.props;
     // yeah, had misaligned overlay content when new line was the only thing
-    const textToWrap = text.endsWith('\n')
+    const textToWrap = _.endsWith(text, '\n')
       ? `${text}\n`
       : text;
     return textToWrap
