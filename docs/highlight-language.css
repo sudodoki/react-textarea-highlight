@@ -9,9 +9,20 @@
 }
 .language-highlight .rth-content {
   padding: 4px;
-  word-spacing: 4px;
   line-height: 24px;
 }
+
+.language-highlight .rth-content {
+  word-spacing: 4px;
+}
+
+/* unfortunately safari has some issues with this */
+/* Safari 9.0+ (http://stackoverflow.com/a/25975282/1976857) */
+_::-webkit-:not(:root:root), .rth-backdrop .rth-content {
+  /* 5/8 * word-spacing from .rth-content */
+  word-spacing: 2.5px;
+}
+
 .language-highlight .rth-content mark:after {
   content: '';
   width: calc(100% + 5px);
